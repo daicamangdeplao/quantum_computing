@@ -9,6 +9,20 @@
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{graphicx}
+\usepackage{listings}
+\usepackage{xcolor}
+
+
+% Listings style
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue}\bfseries,
+    commentstyle=\color{green!50!black}\itshape,
+    stringstyle=\color{red},
+    showstringspaces=false,
+    breaklines=true,
+    frame=single
+}
 
 % Document
 \begin{document}
@@ -30,7 +44,18 @@
     \centering      % Centers the image
     \includegraphics[width=0.6\textwidth]{imgs/Qubit State in Bloch Sphere - Simplified}
     \caption{Qubit in Bloch Sphere}
-    \label{fig:sample}
-\end{figure}
+    \label{fig:qubit_in_bloch_sphere}
+    \end{figure}
+
+    \newpage
+
+    \begin{lstlisting}[language=Python, caption={Computational basis declaration},label={lst:lstlisting22}, captionpos=b]
+        from qiskit.quantum_info import Statevector
+
+        ket_0 = Statevector.from_label('0')
+        ket_1 = Statevector.from_label('1')
+
+        computational_basis = [ket_0, ket_1]
+    \end{lstlisting}
 
 \end{document}
