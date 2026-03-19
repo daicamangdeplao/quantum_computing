@@ -1,0 +1,124 @@
+%! Author = trdng
+%! Date = 3/18/2026
+
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage{amsmath}
+\usepackage{braket}
+\usepackage{indentfirst}
+
+% Document
+\begin{document}
+
+    \section*{Single Qubit Gates}
+    \indent Single qubit gates are unitary operations that act on one qubit at a time.
+    Mathematically, they are $(2 \times 2)$ unitary matrices that transforms a qubit state vector.
+    \newline\indent
+    A general qubit state is $\ket{\psi} = \alpha\ket{0} + \beta\ket{1} $, with $|\alpha|^2 + |\beta|^2 = 1$.
+    \newline\indent
+    A single qubit gate $U$ acts as $ \ket{\psi'} = U \ket{\psi}$
+
+    \subsection{Hadamard}\label{subsec:hadamard}
+
+    Hadamard converts phase info into measurable bit flips.
+    It acts like a perfect quantum coin toss.
+    A matrix represents Hadamard gate as follow
+
+    \[
+    H = \frac{1}{\sqrt{2}}
+    \begin{pmatrix}
+        1 & 1 \\
+        1 & -1
+    \end{pmatrix}
+    \]
+
+    When applying on a qubit, it results
+
+    \[
+        H\ket{0} = \frac{\ket{0} + \ket{1}}{\sqrt{2}} and
+        H\ket{1} = \frac{\ket{0} - \ket{1}}{\sqrt{2}}
+    \]
+
+    \subsection{X-gate}\label{subsec:x-gate}
+
+    X-gate flips the qubit.
+    A matrix represents X-gate as follow
+
+    \[
+        X =
+        \begin{pmatrix}
+            0 & 1 \\
+            1 & 0
+        \end{pmatrix}
+    \]
+
+    When applying on a qubit, it results
+
+    \[
+        X\ket{0} = \ket{1} and
+        X\ket{1} = \ket{0}
+    \]
+
+    In Bloch sphere, it is the rotation of 180° around the x-axis.
+
+    \subsection{Y-gate}\label{subsec:y-gate}
+
+    A matrix represents Y-gate is as follows
+
+    \[
+        Y = \begin{pmatrix}
+                0 & -i \\
+                i & 0
+        \end{pmatrix}
+    \]
+
+    When applying on a qubit, it results
+
+    \[
+        Y\ket{0} = i\ket{1} and
+        Y\ket{1} = -i\ket{0}
+    \]
+
+    In Bloch sphere, it is the rotation of 180° around the y-axis.
+
+    \subsection{Z-gate}\label{subsec:z-gate}
+
+    A matrix represents Y-gate is as follows
+
+    \[
+        Y = \begin{pmatrix}
+                1 & 0 \\
+                0 & -1
+        \end{pmatrix}
+    \]
+
+    When applying on a qubit, it results
+
+    \[
+        Z\ket{0} = \ket{0} and
+        Z\ket{1} = -\ket{1}
+    \]
+
+    In Bloch sphere, it is the rotation of 180° around the z-axis.
+
+    \subsection{Phase-gate}\label{subsec:phase-gate}
+
+    \[
+        Y = \begin{pmatrix}
+                1 & 0 \\
+                0 & i
+        \end{pmatrix}
+    \]
+
+    When applying on a qubit, it results
+
+    \[
+        S\ket{0} = \ket{0} and
+        S\ket{1} = i\ket{1}
+    \]
+
+    Phase-gate adds 90° phase to $\ket{1}$
+
+\end{document}
