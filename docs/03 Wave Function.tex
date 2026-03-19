@@ -1,0 +1,55 @@
+%! Author = trdng
+%! Date = 3/19/2026
+
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage{amsmath}
+\usepackage{braket}
+\usepackage{indentfirst}
+
+% Document
+\begin{document}
+
+    \section*{Wave Function}
+
+    \indent The state of a particle (qubit) is described by a wave function.
+    For a single qubit, the wave function is written as
+    \[
+        \ket{\psi} = \alpha\ket{0} + \beta\ket{1}
+    \]
+
+    For two-qubit system, the wave function is written as
+
+    \[
+        \ket{\psi} = \alpha\ket{00} + \beta\ket{01} + \gamma\ket{10} + \sigma\ket{11}
+    \]
+
+    For $n$-qubit system, the wave function is written as
+
+    \[
+        \ket{\psi} = \sum_{i=0}^{2^n - 1}\alpha_i\ket{i}
+    \]
+
+    For any qubit, the state can be in superposition described via the wave function.
+    Superposition means the qubit can be both 0 and 1 at the same time until measured.
+
+    When you measure a qubit
+    \begin{itemize}
+        \item The superposition disappears.
+        \item The state becomes either 0 or 1.
+        \item The result is probabilistic.
+    \end{itemize}
+
+    The transition "before-after" measured is called wave function collapses, and it converts quantum information into a classical result.
+    Quantum circuits often do, for example
+
+    \[
+        \ket{0} \xrightarrow{} operations \xrightarrow{} measure
+    \]
+
+    The superposition persists throughout the circuit.
+    Only the final measurement collapses it.
+
+\end{document}
