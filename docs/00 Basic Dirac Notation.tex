@@ -1,0 +1,93 @@
+%! Author = trdng
+%! Date = 3/25/2026
+
+% Preamble
+\documentclass[11pt]{article}
+
+% Packages
+\usepackage{amsmath}
+\usepackage{braket}
+\usepackage{indentfirst}
+\usepackage{amsfonts} % \mathbb
+
+% Document
+\begin{document}
+
+    \section*{Basic Dirac Notation}
+
+    \subsection{Ket-Bra}\label{subsec:ket-bra}
+    \indent A Ket is a normalized vector in a complex Hilbert space, whose components are complex numbers.
+    This concept is written as $\ket{\psi} \in \mathcal{H}, \ket{\psi} = \bigl( \begin{smallmatrix}
+                                                                                    \alpha \\ \beta
+    \end{smallmatrix} \bigr) $.
+
+    A Bra is a Hermitian adjoint (conjugate transpose) of a Ket, denoted as $\bra{\psi} = (\ket{\psi})^\dagger = (\alpha^* \beta^*)$.
+
+    A Ket is a column, while a Bra is a row vector with complex conjugate.
+    That means: if $\alpha \in \mathbb{C}$ and $\alpha = a + bi$, then $\alpha^* = a - bi$.
+
+    \subsection{Inner Product (Bra-Ket) and Outer Product (Ket-Bra)}\label{subsec:inner-product-and-outer-product}
+
+    Given,
+    \[
+        \ket{\psi} = \begin{pmatrix} a \\ b \end{pmatrix}, and \bra{\phi} = \begin{pmatrix} c^* & d^* \end{pmatrix}
+    \]
+
+    The inner product between two states $\braket{\phi|\psi}$ results in \textbf{a complex number}.
+
+    \[
+        \braket{\phi|\psi} = a c^* + b d^*
+    \]
+
+    The outer product between two states $\ket{\psi}\bra{\phi}$ results in \textbf{a matrix}.
+
+    \[
+        \ket{\psi}\bra{\phi} = \begin{pmatrix} ac^* & ad^* \\ bc^* & bd^* \end{pmatrix}
+    \]
+
+    For example, take $\ket{0} = \bigl( \begin{smallmatrix} 1 \\ 0 \end{smallmatrix} \bigr)$, and $\bra{0} = \bigl( \begin{smallmatrix} 1 & 0 \end{smallmatrix} \bigr) $.
+    Apply inner product and outer product the corresponding results are following
+
+    \begin{align*}
+        \braket{0|0} &= \begin{pmatrix} 1 & 0 \end{pmatrix} \begin{pmatrix} 1 \\ 0 \end{pmatrix} \\
+        &= 1 + 0 = 1
+    \end{align*}
+
+    \begin{align*}
+        \ket{0}\bra{0} &= \begin{pmatrix} 1 \\ 0 \end{pmatrix} \begin{pmatrix} 1 & 0 \end{pmatrix} \\
+        &= \begin{pmatrix} 1 & 0 \\ 0 & 0 \end{pmatrix}
+    \end{align*}
+
+    \subsection{Apply in Quantum Computing}\label{subsec:apply-in-quantum-computing}
+
+    The two computational basis states are defined as:
+    \[
+        \ket{0} = \begin{pmatrix} 1 \\ 0 \end{pmatrix}, \quad \ket{1} = \begin{pmatrix} 0 \\ 1 \end{pmatrix}
+    \]
+
+    A general qubit state is $\ket{\psi} = \alpha\ket{0} + \beta\ket{1}$, where $\alpha, \beta \in \mathbb{C}$ are complex coefficients or amplitudes of the basis states $\ket{0}, \ket{1}$.
+
+    $\ket{\psi}$ can be written in column vector form $\ket{\psi} = \bigl( \begin{smallmatrix} \alpha \\ \beta\end{smallmatrix} \bigr)$.
+    When you measure it in a computational basis $\{\ket{0}, \ket{1}\}$, the probability of measuring 0 is $|\alpha|^2$ and the probability of measuring 1 is $|\beta|^2$.
+
+    The normalization constraint $|\alpha|^2 + |\beta|^2 = 1$ ensures probabilities sum to 1 (Born rule).
+
+    \subsubsection*{Orthonormality}
+
+    The basis states $\ket{0}$ and $\ket{1}$ are orthonormal, meaning they are orthogonal to each other and each has unit norm:
+    \begin{align*}
+        \braket{0|0} &= 1, \quad \braket{1|1} = 1 \\
+        \braket{0|1} &= 0, \quad \braket{1|0} = 0
+    \end{align*}
+
+    \subsubsection*{Completeness (Resolution of Identity)}
+
+    The outer products of the basis states sum to the identity matrix $I$:
+    \[
+        \ket{0}\bra{0} + \ket{1}\bra{1} = \begin{pmatrix} 1 & 0 \\ 0 & 0 \end{pmatrix} + \begin{pmatrix} 0 & 0 \\ 0 & 1 \end{pmatrix} = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix} = I
+    \]
+
+    This identity means any qubit state can be decomposed as $\ket{\psi} = I\ket{\psi} = \ket{0}\braket{0|\psi} + \ket{1}\braket{1|\psi}$,
+    where $\braket{0|\psi} = \alpha$ and $\braket{1|\psi} = \beta$ are the probability amplitudes.
+
+\end{document}
