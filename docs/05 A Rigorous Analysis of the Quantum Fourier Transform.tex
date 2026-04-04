@@ -1,175 +1,136 @@
 %! Author = trdng
 %! Date = 4/4/2026
 
-\documentclass[conference]{article}
+\documentclass[conference]{IEEEtran}
 
 \usepackage{amsmath, amssymb, braket}
 
-\title{A Rigorous Analysis of the Quantum Fourier Transform}
+\title{Quantum Fourier Transform and Its Circuit Construction}
+
+\author{
+\IEEEauthorblockN{}
+\IEEEauthorblockA{}
+}
 
 \begin{document}
 
 \maketitle
 
 \begin{abstract}
-We present a rigorous formulation of the Quantum Fourier Transform (QFT), including proofs of unitarity and its tensor product decomposition. These results establish the mathematical correctness of the QFT and justify its efficient circuit implementation.
+The Quantum Fourier Transform (QFT) is a fundamental primitive in quantum computing, forming the basis of several important algorithms such as phase estimation, Shor's factoring algorithm, and hidden subgroup problems. This paper presents the formal definition of QFT, its binary decomposition, and an efficient quantum circuit construction.
 \end{abstract}
 
-\section{Preliminaries}
+\section{Introduction}\label{sec:introduction}
 
-Let $\mathcal{H} = \mathbb{C}^{2^n}$ be a Hilbert space with computational basis
-$\{\ket{0}, \dots, \ket{2^n -1}\}$.
+The Quantum Fourier Transform is the quantum analogue of the discrete Fourier transform (DFT). It operates on quantum states and enables exponential speedups in several quantum algorithms.
 
-Define:
+\section{Definition of QFT}\label{sec:definition-of-qft}
+
+Let $N = 2^n$. The QFT is defined as a unitary transformation acting on computational basis states:
+
 \begin{equation}
-\omega_N = e^{\frac{2\pi i}{N}}, \quad N = 2^n
+\mathrm{QFT}\ket{j} = \frac{1}{\sqrt{N}} \sum_{k=0}^{N-1} e^{\frac{2\pi i j k}{N}} \ket{k}\label{eq:equation}
 \end{equation}
 
-\section{Definition}
+Where $j \in \{0, \dots, N-1\}$.
 
-\textbf{Definition 1 (QFT).}
-The Quantum Fourier Transform is the linear operator
-$F_N : \mathcal{H} \to \mathcal{H}$ defined by:
+The QFT operator is unitary, satisfying:
 \begin{equation}
-F_N \ket{j} = \frac{1}{\sqrt{N}} \sum_{k=0}^{N-1} \omega_N^{jk} \ket{k}
+\langle Uj | Uj' \rangle = \delta_{jj'}\label{eq:equation2}
 \end{equation}
 
-\section{Main Results}
+\section{Binary Decomposition}
 
-\subsection{Theorem 1: Unitarity of QFT}
-
-\textbf{Theorem.}
-The operator $F_N$ is unitary, i.e.,
+Let the binary representation of $j$ be:
 \begin{equation}
-F_N^\dagger F_N = I
+j = \sum_{x=1}^{n} j_x 2^{n-x}, \quad j_x \in \{0,1\}\label{eq:equation3}
 \end{equation}
 
-\textbf{Proof.}
-
-We compute:
-\begin{align}
-\langle j' | F_N^\dagger F_N | j \rangle
-&= \langle F_N j' | F_N j \rangle \\
-&= \frac{1}{N} \sum_{k=0}^{N-1} \omega_N^{-j'k} \omega_N^{jk} \\
-&= \frac{1}{N} \sum_{k=0}^{N-1} \omega_N^{(j - j')k}
-\end{align}
-
-Let $d = j - j'$. Then:
+Then the QFT can be expressed in tensor product form:
 \begin{equation}
-\sum_{k=0}^{N-1} \omega_N^{dk}
-=
-\begin{cases}
-N, & d = 0 \\
-0, & d \neq 0
-\end{cases}
-\end{equation}
-
-Therefore:
-\begin{equation}
-\langle j' | F_N^\dagger F_N | j \rangle = \delta_{j,j'}
-\end{equation}
-
-Hence:
-\begin{equation}
-F_N^\dagger F_N = I
-\end{equation}
-
-\hfill $\blacksquare$
-
-\subsection{Theorem 2: Tensor Product Decomposition}
-
-\textbf{Theorem.}
-Let $j = j_1 j_2 \dots j_n$ be the binary expansion of $j$. Then:
-\begin{equation}
-F_N \ket{j}
-=
-\bigotimes_{x=1}^{n}
+\mathrm{QFT}\ket{j}
+= \bigotimes_{x=1}^{n}
 \frac{1}{\sqrt{2}}
 \left(
-\ket{0} + e^{2\pi i \, 0.j_x j_{x+1}\dots j_n} \ket{1}
-\right)
+\ket{0} + e^{2\pi i \, 0.j_x j_{x+1} \dots j_n} \ket{1}
+\right)\label{eq:equation4}
 \end{equation}
 
-\textbf{Proof.}
-
-We rewrite:
+where:
 \begin{equation}
-k = \sum_{x=1}^{n} k_x 2^{n-x}, \quad k_x \in \{0,1\}
+0.j_x j_{x+1}\dots j_n =
+\frac{j_x}{2} + \frac{j_{x+1}}{2^2} + \cdots + \frac{j_n}{2^{n-x+1}}\label{eq:equation5}
 \end{equation}
 
-Then:
-\begin{align}
-\omega_N^{jk}
-&= e^{\frac{2\pi i j}{2^n} \sum_{x=1}^{n} k_x 2^{n-x}} \\
-&= \prod_{x=1}^{n} e^{2\pi i j k_x / 2^x}
-\end{align}
+\section{Quantum Circuit Construction}\label{sec:quantum-circuit-construction}
 
-Thus:
-\begin{align}
-F_N \ket{j}
-&= \frac{1}{\sqrt{2^n}} \sum_{k_1,\dots,k_n}
-\prod_{x=1}^{n} e^{2\pi i j k_x / 2^x}
-\ket{k_1 \dots k_n} \\
-&= \bigotimes_{x=1}^{n}
+The QFT circuit is constructed using two fundamental gates:
+
+\subsection{Hadamard Gate}\label{subsec:hadamard-gate}
+
+\begin{equation}
+H\ket{j} =
 \frac{1}{\sqrt{2}}
 \left(
-\ket{0} + e^{2\pi i j / 2^x} \ket{1}
-\right)
-\end{align}
-
-Finally, express:
-\begin{equation}
-\frac{j}{2^x} = 0.j_x j_{x+1} \dots j_n
+\ket{0} + e^{2\pi i \, 0.j} \ket{1}
+\right)\label{eq:equation6}
 \end{equation}
 
-which completes the proof.
+\subsection{Controlled Phase Rotation}\label{subsec:controlled-phase-rotation}
 
-\hfill $\blacksquare$
+Define the controlled rotation gate $CR_k$ with phase:
+\begin{equation}
+R_k =
+\begin{pmatrix}
+1 & 0 \\
+0 & e^{\frac{2\pi i}{2^k}}
+\end{pmatrix}\label{eq:equation7}
+\end{equation}
 
-\subsection{Theorem 3: Correctness of QFT Circuit}
+\subsection{Circuit Structure}\label{subsec:circuit-structure}
 
-\textbf{Theorem.}
-The standard QFT circuit composed of Hadamard and controlled rotation gates implements $F_N$ up to qubit reversal.
+The QFT circuit applies:
 
-\textbf{Proof (Sketch).}
-
-From Theorem 2, each qubit output depends only on:
 \begin{itemize}
-    \item Its own Hadamard transformation
-    \item Phase contributions from higher-order bits
+    \item A Hadamard gate on qubit $j_x$
+    \item Controlled rotations $CR_k$ with control qubits $j_{x+1}, \dots, j_n$
 \end{itemize}
 
-Each phase term:
+Formally, for each qubit $j_x$:
 \begin{equation}
-e^{2\pi i / 2^k}
+\ket{j_x} \rightarrow
+\frac{1}{\sqrt{2}}
+\left(
+\ket{0} + e^{2\pi i \, 0.j_x \dots j_n} \ket{1}
+\right)\label{eq:equation8}
 \end{equation}
-is implemented via a controlled-$R_k$ gate.
 
-Thus, the circuit reproduces exactly the tensor decomposition of $F_N$. The reversal arises from ordering of tensor factors.
+Due to reversed output ordering, a sequence of SWAP gates is applied at the end of the circuit.
 
-\hfill $\blacksquare$
+\section{Inverse QFT}\label{sec:inverse-qft}
 
-\section{Discussion}\label{sec:discussion}
+The inverse QFT, denoted $\mathrm{QFT}^\dagger$, is obtained by:
 
-These results establish:
 \begin{itemize}
-    \item QFT is a unitary transformation
-    \item It admits an efficient circuit decomposition
-    \item The circuit structure directly follows from its algebraic form
+    \item Reversing the order of gates
+    \item Conjugating phase rotations ($e^{i\theta} \rightarrow e^{-i\theta}$)
+\end{itemize}
+
+\section{Complexity Analysis}\label{sec:complexity-analysis}
+
+The QFT circuit requires:
+\begin{equation}
+O(n^2)\label{eq:equation9}
+\end{equation}
+
+More precisely:
+\begin{itemize}
+    \item $\frac{n(n+1)}{2}$ Controlled rotation gates
+    \item $\frac{n}{2}$ SWAP gates
 \end{itemize}
 
 \section{Conclusion}\label{sec:conclusion}
 
-The Quantum Fourier Transform is rigorously characterized as a unitary operator with a structured tensor decomposition.
-This decomposition directly leads to an efficient quantum circuit implementation.
-
-\begin{thebibliography}{1}
-
-\bibitem{nielsen}
-M. A. Nielsen and I. L. Chuang,
-\textit{Quantum Computation and Quantum Information},
-Cambridge University Press, 2000.
-
-\end{thebibliography}
+The QFT provides an efficient quantum implementation of the Fourier transform with polynomial circuit complexity. Its structured decomposition enables practical realization on quantum hardware and serves as a key building block for many quantum algorithms.
 
 \end{document}
